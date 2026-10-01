@@ -1,18 +1,76 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
 import ControlPanel from './components/ControlPanel';
 import Header from './components/Header';
 import HowItWorks from './components/HowItWorks';
 import MetricRail from './components/MetricRail';
 import Stage from './components/Stage';
-import { compute } from './model';
+import { compute, type Preset } from './model';
+import * as sfx from './sound';
 import { useSimState } from './useSimState';
+
+const SOUND_KEY = 'flywheel-sound';
+
+function readSound(): boolean {
+  try {
+    return window.localStorage.getItem(SOUND_KEY) !== 'off';
+  } catch {
+    return true;
+  }
+}
 
 export default function App() {
   const { state, setProjects, setMultiple, setPreset, reset, share } = useSimState();
   const out = compute(state);
 
+  const [soundOn, setSoundOn] = useState(readSound);
+  useEffect(() => {
+    sfx.installUnlock();
+  }, []);
+  useEffect(() => {
+    sfx.setEnabled(soundOn);
+  }, [soundOn]);
+  const toggleSound = () => {
+    const next = !soundOn;
+    sfx.setEnabled(next);
+    setSoundOn(next);
+    try {
+      window.localStorage.setItem(SOUND_KEY, next ? 'on' : 'off');
+    } catch {
+      // Preference just won't persist.
+    }
+    if (next) window.setTimeout(sfx.chime, 0);
+  };
+
+  // Sweep while a slider moves (not for preset jumps, which get their own sound).
+  const fromPreset = useRef(false);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    if (fromPreset.current) { fromPreset.current = false; return; }
+    sfx.sweep(state.multiple);
+  }, [state.projects, state.multiple]);
+
+  const onPreset = useCallback((p: Preset) => {
+    fromPreset.current = true;
+    if (p === 'good') sfx.bid();
+    else sfx.chime();
+    setPreset(p);
+  }, [setPreset]);
+
+  const onShare = () => {
+    sfx.chime();
+    return share();
+  };
+
+  const onReset = () => {
+    fromPreset.current = true;
+    sfx.down();
+    reset();
+  };
+
   return (
     <>
-      <Header onShare={share} />
+      <Header onShare={onShare} soundOn={soundOn} onToggleSound={toggleSound} />
       <main className="wrap" id="simulator">
         <section className="hero">
           <h1>Every successful launch is a permanent bid for <em>$SELECT</em>.</h1>
@@ -31,8 +89,8 @@ export default function App() {
             state={state}
             onProjects={setProjects}
             onMultiple={setMultiple}
-            onPreset={setPreset}
-            onReset={reset}
+            onPreset={onPreset}
+            onReset={onReset}
           />
         </div>
 

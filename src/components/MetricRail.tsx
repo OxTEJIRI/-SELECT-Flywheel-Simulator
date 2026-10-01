@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { formatCompact, formatIndex, formatPct } from '../format';
 import type { Outputs } from '../model';
 import { useTween } from '../useTween';
@@ -7,9 +8,19 @@ export default function MetricRail({ out }: { out: Outputs }) {
   const share = useTween(out.shareOfSupply);
   const lift = useTween(out.liftIndex);
 
+  // Brief glow on the headline card whenever the pulled amount changes.
+  const [flash, setFlash] = useState(false);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    setFlash(true);
+    const t = window.setTimeout(() => setFlash(false), 600);
+    return () => window.clearTimeout(t);
+  }, [out.totalPulled]);
+
   return (
     <div className="rail" aria-label="Metrics">
-      <div className="panel card">
+      <div className={`panel card hot${flash ? ' flash' : ''}`}>
         <span className="label">$SELECT pulled from market</span>
         <span className="num big accent">{formatCompact(pulled)}</span>
         <p>into locked project pools</p>
