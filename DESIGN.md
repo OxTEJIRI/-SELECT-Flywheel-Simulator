@@ -52,16 +52,22 @@ Example: `/?projects=6&multiple=4.2&preset=custom`
 
 Aesthetic: institutional dark terminal, not a meme coin. Quiet, precise, high contrast. Think trading desk, not neon casino.
 
+UPDATE (restyle to match token.select; supersedes the original dark-slate + yellow tokens below):
+- Font: Figtree for UI (free stand-in for token.select's Roobert), IBM Plex Mono for numbers.
+- Display claim 70/72, weight 700, tracking -0.035em. Body 17/26. Max content width 1240.
+- Primary button: pill, linear-gradient(100deg, #A9BCE8, #F3ECE4 38%, #FF9A4A 74%, #FF6A1A), ink #1A0E04, orange glow shadow.
+- Orange accent, numbered step labels, hairline header border, faint starfield background.
+
 Color:
-- bg: #07080A
-- bg-elevated: #101216
-- bg-panel: #161A20
-- line: rgba(255,255,255,0.08)
-- line-strong: rgba(255,255,255,0.16)
-- text: #F4F1EA
-- text-dim: #9A958C
-- text-faint: #6B6660
-- accent (SELECT): #E7FF3D (acid yellow, used only for $SELECT, the bid, and the primary button)
+- bg: #000
+- bg-elevated: #0C0B0A
+- bg-panel: #0F0E0D
+- line: rgba(244,239,230,0.10)
+- line-strong: rgba(244,239,230,0.18)
+- text: #F4EFE6
+- text-dim: rgba(244,239,230,0.70)
+- text-faint: rgba(244,239,230,0.45)
+- accent (SELECT): #FF6A1A (orange, used for $SELECT, the bid, and the primary button)
 - project: #7EB6FF (cool blue, project tokens)
 - eth: #C8CDD6
 - danger/empty: #E85D4C only for the “0 $SELECT at open” state

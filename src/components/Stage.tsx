@@ -75,7 +75,7 @@ export default function Stage({ inputs, out }: { inputs: Inputs; out: Outputs })
           <text className="svg-label" x={16} y={CY - 8}>Open market</text>
 
           {nodes.map((n, i) => (
-            <g key={`l${i}`} stroke="rgba(255,255,255,0.08)" strokeWidth="1">
+            <g key={`l${i}`} stroke="rgba(244,239,230,0.08)" strokeWidth="1">
               <line x1={MARKET_X} y1={CY} x2={n.x} y2={n.y} />
               <line x1={n.x} y1={n.y} x2={CX} y2={CY} />
             </g>
@@ -83,7 +83,7 @@ export default function Stage({ inputs, out }: { inputs: Inputs; out: Outputs })
 
           {particles.map((p) => (
             <rect
-              key={p.key} className="particle" fill="#e7ff3d"
+              key={p.key} className="particle" fill="#ff6a1a"
               x={-p.size / 2} y={-p.size / 2} width={p.size} height={p.size}
               style={{
                 '--x0': p.x0, '--y0': p.y0, '--x1': p.x1, '--y1': p.y1,
@@ -92,9 +92,9 @@ export default function Stage({ inputs, out }: { inputs: Inputs; out: Outputs })
             />
           ))}
 
-          {flowing && <circle className="pulse" cx={CX} cy={CY} r={48} fill="none" stroke="#e7ff3d" strokeWidth="2" />}
-          <circle cx={CX} cy={CY} r={48} fill="#e7ff3d" />
-          <text x={CX} y={CY + 5} textAnchor="middle" fill="#07080a" fontFamily="var(--font-ui)" fontWeight="500" fontSize="16">$SELECT</text>
+          {flowing && <circle className="pulse" cx={CX} cy={CY} r={48} fill="none" stroke="#ff6a1a" strokeWidth="2" />}
+          <circle cx={CX} cy={CY} r={48} fill="#ff6a1a" />
+          <text x={CX} y={CY + 5} textAnchor="middle" fill="#1a0e04" fontFamily="var(--font-ui)" fontWeight="500" fontSize="16">$SELECT</text>
           <text className="svg-mono" x={CX} y={CY + 76} textAnchor="middle">{formatPct(share)} of supply</text>
           <text className="svg-dim" x={CX} y={CY + 96} textAnchor="middle">Locked in pools. Not a treasury buy.</text>
 
@@ -105,15 +105,15 @@ export default function Stage({ inputs, out }: { inputs: Inputs; out: Outputs })
               onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}
               onFocus={() => setHover(i)} onBlur={() => setHover(null)}
             >
-              <circle className="node-ring" cx={n.x} cy={n.y} r={28} fill="#101216" stroke="#7eb6ff" strokeWidth="1" />
-              <text x={n.x} y={n.y + 4} textAnchor="middle" fill="#f4f1ea" fontFamily="var(--font-mono)" fontSize="12">{n.ticker}</text>
+              <circle className="node-ring" cx={n.x} cy={n.y} r={28} fill="#0c0b0a" stroke="#7eb6ff" strokeWidth="1" />
+              <text x={n.x} y={n.y + 4} textAnchor="middle" fill="#f4efe6" fontFamily="var(--font-mono)" fontSize="12">{n.ticker}</text>
               <g transform={`translate(${n.x - BAR_W / 2}, ${n.y + 38})`}>
                 <rect width={BAR_W * 0.9} height={6} fill="#c8cdd6" />
                 <rect
                   x={BAR_W * 0.9} width={BAR_W * 0.1} height={6} fill="none"
-                  stroke={out.totalPulled === 0 ? '#e85d4c' : 'rgba(255,255,255,0.16)'} strokeWidth="1"
+                  stroke={out.totalPulled === 0 ? '#e85d4c' : 'rgba(244,239,230,0.16)'} strokeWidth="1"
                 />
-                <rect className="bar-fill" x={BAR_W * 0.9} width={BAR_W * 0.1 * Math.max(0, fill)} height={6} fill="#e7ff3d" />
+                <rect className="bar-fill" x={BAR_W * 0.9} width={BAR_W * 0.1 * Math.max(0, fill)} height={6} fill="#ff6a1a" />
                 <text className="svg-label" x={0} y={20}>ETH 90</text>
                 <text className="svg-label" x={BAR_W} y={20} textAnchor="end">SELECT</text>
               </g>
